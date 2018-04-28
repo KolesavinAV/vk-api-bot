@@ -7,7 +7,7 @@ module.exports = (() => {
     const commandEmmiter = new EventEmitter()
 
     function callApi(method, token, parameters) {
-        let url = `https://api.vk.com/method/${method}?access_token=${token}&v=5.50`
+        let url = `https://api.vk.com/method/${method}?access_token=${token}&v=5.74`
 
         if (typeof parameters !== 'function') {
             for (let param in parameters) {
@@ -15,13 +15,12 @@ module.exports = (() => {
             }
         }
 
-        const cb = arguments[arguments.length - 1]
-
+        const callback = arguments[arguments.length - 1]
 
         https.get(url, res => {
             res.on('data', data => {
-                if (typeof cb === 'function') {
-                    cb(JSON.parse(data))
+                if (typeof callback === 'function') {
+                    callback(JSON.parse(data))
                 }
             })
         })
@@ -36,16 +35,6 @@ module.exports = (() => {
      * @class
      */
     class VKBot {
-        /**
-         * @constructor 
-         * @param {Object} options - Options for bot
-         * @param {string} options.token - Bot access token
-         * @param {Object} options.commandOptions
-         * @param {string=} options.commandOptions.commandPrefix
-         * @param {Object[]} options.commandOptions.commands[]
-         * @param {string} options.commandOptions.commands[].command
-         * @param {Function} options.commandOptions.commands[].action
-         */
         constructor(token, groupId, prefix) {
             if (typeof token !== 'string') {
                 throw new Error('Token is not string')
@@ -53,9 +42,11 @@ module.exports = (() => {
             if (typeof prefix !== 'string') {
                 throw new Error('Prefix is not string')
             }
+            
             this.token = token
             this.groupId = groupId
             this.prefix = prefix
+            this.commands = commands
         }
         listen() {
             callApi('groups.getLongPollServer', this.token, { group_id: this.groupId }, data => {
