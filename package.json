@@ -1,0 +1,8 @@
+{
+  "name": "vk-bot",
+  "version": "0.1",
+  "description": "Module for develop vk.com chat bot",
+  "main": "index.js",
+  "author": "KolesavinAV",
+  "license": "MIT"
+}
