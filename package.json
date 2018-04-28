@@ -1,8 +1,26 @@
 {
-  "name": "vk-bot",
-  "version": "0.1",
-  "description": "Module for develop vk.com chat bot",
+  "name": "vk-api-bot",
+  "version": "0.1.0",
+  "description": "Module for develop vk.com bot",
   "main": "index.js",
-  "author": "KolesavinAV",
-  "license": "MIT"
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KolesavinAV/vk-api-bot.git"
+  },
+  "keywords": [
+    "vk",
+    "vk.com",
+    "bot",
+    "nodejs",
+    "js"
+  ],
+  "author": "Колесавин Александр",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/KolesavinAV/vk-api-bot/issues"
+  },
+  "homepage": "https://github.com/KolesavinAV/vk-api-bot#readme"
 }
