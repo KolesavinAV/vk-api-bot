@@ -26,28 +26,29 @@ module.exports = (() => {
         })
     }
 
-    function matchPrefix(text, prefix) {
-        const pattern = new RegExp(`^${prefix}.+`, 'gui')
-        return pattern.exec(text)
+    function parseQuery(text, prefix) {
+        const pattern = new RegExp(`${prefix}\\s?([А-Яа-яA-Za-z]+)(?:\\s([\\s\\S]+))?`, 'ui')
+        return text.match(pattern)
     }
 
     /**
      * @class
      */
     class VKBot {
-        constructor(token, groupId, prefix) {
+        constructor(token, groupId, prefix, commands) {
             if (typeof token !== 'string') {
                 throw new Error('Token is not string')
             }
             if (typeof prefix !== 'string') {
                 throw new Error('Prefix is not string')
             }
-            
+
             this.token = token
             this.groupId = groupId
             this.prefix = prefix
             this.commands = commands
         }
+
         listen() {
             callApi('groups.getLongPollServer', this.token, { group_id: this.groupId }, data => {
                 const { response } = data
@@ -65,10 +66,23 @@ module.exports = (() => {
                                         if (updates[i].type === 'message_new') {
                                             const message = updates[i].object.body
                                             const userId = updates[i].object.user_id
+
                                             self.emit('message', {
                                                 userId: userId,
                                                 message: message
                                             });
+
+                                            if (self.commands) {
+                                                let matches = parseQuery(message, self.prefix)
+
+                                                if (matches) {
+                                                    for (let commandObj of self.commands) {
+                                                        if (matches[1].toLowerCase() === commandObj.command) {
+                                                            commandObj.action(userId, matches[2].toLowerCase())
+                                                        }
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -79,10 +93,6 @@ module.exports = (() => {
                     callLongPoll()
                 }
             });
-        }
-
-        onCommand(command, callback) {
-            commandEmmiter.on(command, callback)
         }
 
         response(userId, message) {
