@@ -1,11 +1,8 @@
 {
   "name": "vk-api-bot",
-  "version": "0.2.0",
+  "version": "0.2.5",
   "description": "Module for develop vk.com bot",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/KolesavinAV/vk-api-bot.git"
