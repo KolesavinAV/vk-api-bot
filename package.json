@@ -1,6 +1,6 @@
 {
   "name": "vk-api-bot",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Module for develop vk.com bot",
   "main": "index.js",
   "repository": {
